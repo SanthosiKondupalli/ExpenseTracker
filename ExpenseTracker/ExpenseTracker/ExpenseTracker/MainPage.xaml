@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ExpenseTracker.MainPage">
+
+    <StackLayout>
+        <Label Text="Expense Tracker" TextColor="Green" HorizontalTextAlignment="Center" FontSize="33"/>
+        <Grid ColumnDefinitions="300,100" >
+           <Editor Placeholder="Please set the monthly budget here" PlaceholderColor="Olive" MaxLength="100"/>
+            <Button  Grid.Column="1" x:Name="SaveButton" Text="Save" WidthRequest="20" Clicked="OnSaveButtonClicked"/>
+        </Grid>
+    </StackLayout>
+
+</ContentPage>
