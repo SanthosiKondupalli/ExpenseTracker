@@ -42,5 +42,10 @@ namespace ExpenseTracker
                 Budget.Text = File.ReadAllText(budgetFileName);
 
         }
+
+        private async void OnAddExpenseButtonClicked(object sender, EventArgs e)
+        {
+            await Navigation.PushModalAsync(new AddExpensePage {BindingContext=new Expense() });
+        }
     }
 }

@@ -60,21 +60,21 @@
                             x:Name="ExpenseDate"
                             MinimumDate="01/01/2020"
                             MaximumDate="12/31/2025"/>
-                <CollectionView ItemsSource=""
+                <!--<CollectionView ItemsSource=""
                                 SelectionMode="Single"
                                 Grid.Row="3"
                                 Grid.ColumnSpan="1"
-                                x:Name="ExpenseCategory"/>
+                                x:Name="ExpenseCategory"/>-->
                 <StackLayout Orientation="Horizontal"
                              Grid.Row="4"
                              Grid.ColumnSpan="2"
                              HorizontalOptions="Center">
                     <Button Text="Cancel"
                             x:Name="CancelButton"
-                            Clicked="CancelButton_Clicked"/>
+                            Clicked="OnCancelButtonClicked"/>
                     <Button Text="Submit"
                             x:Name="SubmitButton"
-                            Clicked="SubmitButton_Clicked"/>
+                            Clicked="OnSubmitButtonClicked"/>
                 </StackLayout>
                 
             </Grid>
