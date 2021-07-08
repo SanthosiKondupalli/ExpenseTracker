@@ -7,10 +7,10 @@ namespace ExpenseTracker.Model
     public class Expense
     {
         public String Name { get; set; }
-        public int Amount { get; set; }
+        public Decimal Amount { get; set; }
         public DateTime Date{ get; set; }
         public String Category { get; set; }
-
+        public String FileName { get; set; }
 
 
 

@@ -1,5 +1,8 @@
-﻿using System;
+﻿using ExpenseTracker.Model;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,14 +20,23 @@ namespace ExpenseTracker
             InitializeComponent();
         }
 
-        private void CancelButton_Clicked(object sender, EventArgs e)
+        private async void OnCancelButtonClicked(object sender, EventArgs e)
         {
-
+            await Navigation.PopModalAsync();
         }
 
-        private void SubmitButton_Clicked(object sender, EventArgs e)
+        private void OnSubmitButtonClicked(object sender, EventArgs e)
         {
-
+            var expense = (Expense)BindingContext;
+            expense.Amount =Convert.ToDecimal(ExpenseAmount.Text);
+            expense.Date = ExpenseDate.Date;
+            expense.Name = ExpenseName.Text;
+            //expense.Category=
+            String jsonString = JsonConvert.SerializeObject(expense);
+            expense.FileName= Path.Combine
+                (Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), $"{Path.GetRandomFileName()}.Expense.json");
+            File.WriteAllText(expense.FileName, jsonString);
+            Navigation.PopModalAsync();
         }
     }
 }

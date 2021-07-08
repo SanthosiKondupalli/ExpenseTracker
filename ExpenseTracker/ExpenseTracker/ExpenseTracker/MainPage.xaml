@@ -13,7 +13,7 @@
         </Grid>
         <Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto" >
         <Label Text="List Of Expenses:" FontSize="20" HorizontalOptions="Center" VerticalOptions="Center"/>
-            <Button  Grid.Column="1" HorizontalOptions="End" WidthRequest="50" Text="+" FontSize="30"/>
+            <Button  Grid.Column="1" x:Name="AddExpenseButton" Clicked="OnAddExpenseButtonClicked" HorizontalOptions="End" WidthRequest="50" Text="+" FontSize="30"/>
         </Grid>
         <ListView x:Name="MyExpensesList" BackgroundColor="AliceBlue">
             <ListView.ItemTemplate>
@@ -22,7 +22,7 @@
                         <StackLayout Orientation="Horizontal">
                             <StackLayout Orientation="Vertical">
                             <Label Text="{Binding Name}" />
-                            <Label Text="{Binding Date}" HorizontalOptions="StartAndExpand"/>
+                            <Label Text="{Binding Date,StringFormat='{0:MMMM dd,yyyy}'}" HorizontalOptions="StartAndExpand"/>
                             </StackLayout>
                             <Label Text="{Binding Amount}" HorizontalOptions="CenterAndExpand"/>
                         </StackLayout>
