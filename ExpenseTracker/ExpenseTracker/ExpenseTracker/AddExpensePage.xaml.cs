@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -15,9 +16,54 @@ namespace ExpenseTracker
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class AddExpensePage : ContentPage
     {
+        public List<ExpenseIcon> ExpenseIconsList;
         public AddExpensePage()
         {
             InitializeComponent();
+            ExpenseIconsList = new List<ExpenseIcon>
+            {
+                new ExpenseIcon
+                {
+                    IconFile = "/Assets/ExpenseIcons/Bills.png",
+                    IconName = "Bills"
+                },
+                new ExpenseIcon
+                {
+                    IconFile = "/Assets/ExpenseIcons/Fuel.png",
+                    IconName = "Fuel"
+                },
+                new ExpenseIcon
+                {
+                    IconFile = "/Assets/ExpenseIcons/Grocery.png",
+                    IconName = "Grocery"
+                },
+                new ExpenseIcon
+                {
+                    IconFile = "/Assets/ExpenseIcons/Leisure.png",
+                    IconName = "Leisure"
+                },
+                new ExpenseIcon
+                {
+                    IconFile = "/Assets/ExpenseIcons/Misc.png",
+                    IconName = "Misc"
+                },
+                new ExpenseIcon
+                {
+                    IconFile = "/Assets/ExpenseIcons/Restaurant.png",
+                    IconName = "Restaurant"
+                },
+                new ExpenseIcon
+                {
+                    IconFile = "/Assets/ExpenseIcons/Shopping.png",
+                    IconName = "Shopping"
+                },
+                new ExpenseIcon
+                {
+                    IconFile = "/Assets/ExpenseIcons/Travel.png",
+                    IconName = "Travel"
+                }
+            };
+            ExpenseIcons.ItemsSource = ExpenseIconsList;
         }
 
         private async void OnCancelButtonClicked(object sender, EventArgs e)
@@ -28,12 +74,12 @@ namespace ExpenseTracker
         private void OnSubmitButtonClicked(object sender, EventArgs e)
         {
             var expense = (Expense)BindingContext;
-            expense.Amount =Convert.ToDecimal(ExpenseAmount.Text);
+            expense.Amount = Convert.ToDecimal(ExpenseAmount.Text);
             expense.Date = ExpenseDate.Date;
             expense.Name = ExpenseName.Text;
-            //expense.Category=
+            expense.Category = (ExpenseIcon)ExpenseIcons.SelectedItem;
             String jsonString = JsonConvert.SerializeObject(expense);
-            expense.FileName= Path.Combine
+            expense.FileName = Path.Combine
                 (Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), $"{Path.GetRandomFileName()}.Expense.json");
             File.WriteAllText(expense.FileName, jsonString);
             Navigation.PopModalAsync();
