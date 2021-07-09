@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             xmlns:model="clr-namespace:ExpenseTracker.Model"
              x:Class="ExpenseTracker.AddExpensePage">
     <ContentPage.Content>
         <StackLayout>
@@ -16,11 +17,11 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="175"/>
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="75"/>
                     <ColumnDefinition Width="4*"/>
                 </Grid.ColumnDefinitions>
                 <Label Grid.Row="0"
@@ -60,11 +61,33 @@
                             x:Name="ExpenseDate"
                             MinimumDate="01/01/2020"
                             MaximumDate="12/31/2025"/>
-                <!--<CollectionView ItemsSource=""
-                                SelectionMode="Single"
+                <!--<Image Source="/Assets/ExpenseIcons/Bills.png"/>-->
+                <CollectionView SelectionMode="Single"
                                 Grid.Row="3"
-                                Grid.ColumnSpan="1"
-                                x:Name="ExpenseCategory"/>-->
+                                Grid.ColumnSpan="2"
+                                x:Name="ExpenseIcons"
+                                ItemsLayout="VerticalGrid, 4"
+                                ItemSizingStrategy="MeasureAllItems"
+                                HorizontalOptions="Center">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="model:ExpenseIcon">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="50"/>
+                                    <RowDefinition Height="25"/>
+                                </Grid.RowDefinitions>
+                                <Image Source="{Binding IconFile}"
+                                       HeightRequest="35"
+                                       WidthRequest="35"
+                                       Grid.Row="0"
+                                       HorizontalOptions="Center"/>
+                                <Label Text="{Binding IconName}"
+                                       Grid.Row="1"
+                                       HorizontalTextAlignment="Center"/>
+                            </Grid>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
                 <StackLayout Orientation="Horizontal"
                              Grid.Row="4"
                              Grid.ColumnSpan="2"
