@@ -11,7 +11,7 @@
                    TextTransform="Uppercase"
                    FontAttributes="Bold"
                    HorizontalTextAlignment="Center"
-                   TextColor="Red"/>
+                   TextColor="Blue"/>
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>

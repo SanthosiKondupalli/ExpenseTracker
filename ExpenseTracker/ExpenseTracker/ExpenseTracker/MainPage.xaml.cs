@@ -39,28 +39,31 @@ namespace ExpenseTracker
             if (!String.IsNullOrEmpty(Budget.Text))
             {
                 spentAmount = expenses.Sum(n => n.Amount);
-                TotalExpenses.Text = $"${spentAmount.ToString()}";
+                TotalExpenses.Text = $"{spentAmount.ToString()}";
 
-                Balance.Text = $"${(Convert.ToDecimal(Budget.Text)-spentAmount).ToString()}";
+                Balance.Text = $"{(Convert.ToDecimal(Budget.Text)-spentAmount).ToString()}";
             }
             MyExpensesList.ItemsSource = expenses;
         }
 
         private void OnSaveButtonClicked(object sender, EventArgs e)
         {
-
             if (!File.Exists(budgetFileName))
             {
                 File.WriteAllText(budgetFileName, Budget.Text);
-                Budget.Text = $"${File.ReadAllText(budgetFileName)}";
+                Budget.Text = $"{File.ReadAllText(budgetFileName)}";
                 SaveButton.IsVisible = false;
                 Budget.IsReadOnly = true;
                 AddExpenseButton.IsVisible = true;
+                Balance.Text = $"{Budget.Text}";
             }
             else
-                Budget.Text = $"${File.ReadAllText(budgetFileName)}";
-
+            {
+                Budget.Text = $"{File.ReadAllText(budgetFileName)}";
+            }
         }
+
+    
 
         private async void OnAddExpenseButtonClicked(object sender, EventArgs e)
         {
@@ -94,9 +97,9 @@ namespace ExpenseTracker
                 if (!String.IsNullOrEmpty(Budget.Text))
                 {
                     spentAmount = expenses.Sum(n => n.Amount);
-                    TotalExpenses.Text = $"${spentAmount.ToString()}";
+                    TotalExpenses.Text = $"{spentAmount.ToString()}";
 
-                    Balance.Text = $"${(Convert.ToDecimal(Budget.Text) - spentAmount).ToString()}";
+                    Balance.Text = $"{(Convert.ToDecimal(Budget.Text) - spentAmount).ToString()}";
                 }
             }
 
