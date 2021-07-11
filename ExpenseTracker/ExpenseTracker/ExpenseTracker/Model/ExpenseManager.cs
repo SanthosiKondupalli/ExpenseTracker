@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 
 namespace ExpenseTracker.Model
@@ -17,7 +18,12 @@ namespace ExpenseTracker.Model
                 String jsonString = File.ReadAllText(fileName);
                 expenses.Add(JsonConvert.DeserializeObject<Expense>(jsonString));
             }
-            return expenses;
+            
+            return expenses.OrderBy(n=>n.Date).ToList<Expense>();
+        }
+        public static void DeleteExpense(int position)
+        {
+
         }
     }
 }
