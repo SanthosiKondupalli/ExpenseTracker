@@ -50,7 +50,7 @@ namespace ExpenseTracker
                 new ExpenseIcon
                 {
                     IconFile = "/Assets/ExpenseIcons/Restaurant.png",
-                    IconName = "Restaurant"
+                    IconName = "Food"
                 },
                 new ExpenseIcon
                 {
@@ -71,7 +71,7 @@ namespace ExpenseTracker
             await Navigation.PopModalAsync();
         }
 
-        private void OnSubmitButtonClicked(object sender, EventArgs e)
+        async private void OnSubmitButtonClicked(object sender, EventArgs e)
         {
             var expense = (Expense)BindingContext;
             expense.Amount = Convert.ToDecimal(ExpenseAmount.Text);
@@ -83,7 +83,8 @@ namespace ExpenseTracker
                 (Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), $"{Path.GetRandomFileName()}.Expense.json");
             String jsonString = JsonConvert.SerializeObject(expense);
             File.WriteAllText(expense.FileName, jsonString);
-            Navigation.PopModalAsync();
+            await DisplayAlert($"{ExpenseName.Text}: ${ExpenseAmount.Text}", "Expense has been added.", "OK");
+            await Navigation.PopModalAsync();
         }
     }
 }

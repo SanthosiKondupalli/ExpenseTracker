@@ -47,7 +47,7 @@
                        Grid.Column="1"
                        x:Name="ExpenseAmount"
                        Placeholder="Enter Expense Amount Here"
-                       MaxLength="10"
+                       MaxLength="8"
                        Keyboard="Numeric"
                        ClearButtonVisibility="WhileEditing"/>
                 <Label Grid.Row="2"
