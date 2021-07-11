@@ -78,9 +78,10 @@ namespace ExpenseTracker
             expense.Date = ExpenseDate.Date;
             expense.Name = ExpenseName.Text;
             expense.Category = (ExpenseIcon)ExpenseIcons.SelectedItem;
-            String jsonString = JsonConvert.SerializeObject(expense);
+            
             expense.FileName = Path.Combine
                 (Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), $"{Path.GetRandomFileName()}.Expense.json");
+            String jsonString = JsonConvert.SerializeObject(expense);
             File.WriteAllText(expense.FileName, jsonString);
             Navigation.PopModalAsync();
         }

@@ -11,8 +11,18 @@
             <Entry Grid.Row="0" Grid.Column="1" BackgroundColor="AntiqueWhite"  x:Name="Budget" Keyboard="Numeric" Placeholder="Please set the monthly budget here" PlaceholderColor="Olive" MaxLength="100" HeightRequest="50"/>
             <Button  Grid.Row="1" Grid.Column="1" x:Name="SaveButton" Text="Save" Clicked="OnSaveButtonClicked"/>
         </Grid>
+        <StackLayout Orientation="Horizontal">
+        <Label Text="Available Balance :" TextColor="Blue" VerticalOptions="Center"/>
+            <Entry x:Name="Balance" BackgroundColor="AntiqueWhite" IsEnabled="False" VerticalOptions="Center"/>
+            <Label Text="Total Expenses :" TextColor="Red" VerticalOptions="Center"  />
+            <Entry x:Name="TotalExpenses" BackgroundColor="AntiqueWhite" IsEnabled="False" VerticalOptions="Center"/>
+
+        </StackLayout>
+        
+        
         <Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto" >
         <Label Text="List Of Expenses:" FontSize="20" HorizontalOptions="Center" VerticalOptions="Center"/>
+               
             <Button  Grid.Column="1" x:Name="AddExpenseButton" Clicked="OnAddExpenseButtonClicked" HorizontalOptions="End" WidthRequest="50" Text="+" FontSize="30"/>
         </Grid>
         <ListView x:Name="MyExpensesList" BackgroundColor="AliceBlue">
@@ -25,6 +35,7 @@
                                     <ColumnDefinition Width="30"/>
                                     <ColumnDefinition Width="175"/>
                                     <ColumnDefinition Width="100"/>
+                                    <ColumnDefinition Width="50"/>
                                     <ColumnDefinition Width="50"/>
                                 </Grid.ColumnDefinitions>
 
@@ -50,6 +61,9 @@
                                    VerticalOptions="Center"
                                    TextColor="Red"
                                    Grid.Column="3"/>
+                                <Button  Grid.Column="4" x:Name="DeleteExpenseButton" 
+                                         Clicked="OnDeleteExpenseButtonClicked" HorizontalOptions="End" 
+                                         WidthRequest="50" Text="&#xE74D;" FontFamily="Segoe MDL2 Assets" FontSize="30"/>
                             </Grid>
                         </StackLayout>
                     

@@ -1,6 +1,7 @@
 ﻿using ExpenseTracker.Model;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
@@ -12,22 +13,37 @@ namespace ExpenseTracker
 {
     public partial class MainPage : ContentPage
     {
+        private ObservableCollection<Expense> expenses;
         String budgetFileName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "MonthlyBudget.txt");
         public MainPage()
         {
             InitializeComponent();
+            AddExpenseButton.IsVisible = false;
+            
             if (File.Exists(budgetFileName))
             {
                 Budget.Text = File.ReadAllText(budgetFileName);
                 SaveButton.IsVisible = false;
                 Budget.IsReadOnly = true;
-               
-                
+                AddExpenseButton.IsVisible = true;
             }
         }
+        
         protected override void OnAppearing()
         {
-            MyExpensesList.ItemsSource=ExpenseManager.GetExpenses();
+            expenses = new ObservableCollection<Expense>();
+            List<Expense> expensesList= ExpenseManager.GetExpenses();
+            
+            expensesList.ForEach(expense => expenses.Add(expense));
+            Decimal spentAmount;
+            if (!String.IsNullOrEmpty(Budget.Text))
+            {
+                spentAmount = expenses.Sum(n => n.Amount);
+                TotalExpenses.Text = spentAmount.ToString();
+
+                Balance.Text = (Convert.ToDecimal(Budget.Text)-spentAmount).ToString();
+            }
+            MyExpensesList.ItemsSource = expenses;
         }
 
         private void OnSaveButtonClicked(object sender, EventArgs e)
@@ -37,6 +53,9 @@ namespace ExpenseTracker
             {
                 File.WriteAllText(budgetFileName, Budget.Text);
                 Budget.Text = File.ReadAllText(budgetFileName);
+                SaveButton.IsVisible = false;
+                Budget.IsReadOnly = true;
+                AddExpenseButton.IsVisible = true;
             }
             else
                 Budget.Text = File.ReadAllText(budgetFileName);
@@ -47,5 +66,17 @@ namespace ExpenseTracker
         {
             await Navigation.PushModalAsync(new AddExpensePage {BindingContext=new Expense() });
         }
+
+        private void OnDeleteExpenseButtonClicked(object sender, EventArgs e)
+        {
+           var button = sender as Button;
+            Expense expense=button.BindingContext as Expense;
+            File.Delete(expense.FileName);
+            expenses.Clear();
+           List<Expense> expensesList = ExpenseManager.GetExpenses();
+            expensesList.ForEach(expense1 => expenses.Add(expense1));
+        }
+
+      
     }
 }
