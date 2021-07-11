@@ -39,9 +39,9 @@ namespace ExpenseTracker
             if (!String.IsNullOrEmpty(Budget.Text))
             {
                 spentAmount = expenses.Sum(n => n.Amount);
-                TotalExpenses.Text = spentAmount.ToString();
+                TotalExpenses.Text = $"${spentAmount.ToString()}";
 
-                Balance.Text = (Convert.ToDecimal(Budget.Text)-spentAmount).ToString();
+                Balance.Text = $"${(Convert.ToDecimal(Budget.Text)-spentAmount).ToString()}";
             }
             MyExpensesList.ItemsSource = expenses;
         }
@@ -52,13 +52,13 @@ namespace ExpenseTracker
             if (!File.Exists(budgetFileName))
             {
                 File.WriteAllText(budgetFileName, Budget.Text);
-                Budget.Text = File.ReadAllText(budgetFileName);
+                Budget.Text = $"${File.ReadAllText(budgetFileName)}";
                 SaveButton.IsVisible = false;
                 Budget.IsReadOnly = true;
                 AddExpenseButton.IsVisible = true;
             }
             else
-                Budget.Text = File.ReadAllText(budgetFileName);
+                Budget.Text = $"${File.ReadAllText(budgetFileName)}";
 
         }
 
@@ -67,7 +67,7 @@ namespace ExpenseTracker
             await Navigation.PushModalAsync(new AddExpensePage {BindingContext=new Expense() });
         }
 
-        private void OnDeleteExpenseButtonClicked(object sender, EventArgs e)
+        /*private void OnDeleteExpenseButtonClicked(object sender, EventArgs e)
         {
            var button = sender as Button;
             Expense expense=button.BindingContext as Expense;
@@ -75,8 +75,31 @@ namespace ExpenseTracker
             expenses.Clear();
            List<Expense> expensesList = ExpenseManager.GetExpenses();
             expensesList.ForEach(expense1 => expenses.Add(expense1));
-        }
+        }*/
 
-      
+        async private void MyExpensesList_ItemTapped(object sender, ItemTappedEventArgs e)
+        {
+            Expense SelectedExpense = (Expense)MyExpensesList.SelectedItem;
+            string action = await DisplayActionSheet($"{SelectedExpense.Name}: ${SelectedExpense.Amount}\n{SelectedExpense.Date}",
+                "Cancel",
+                "Delete");
+
+            if (action == "Delete")
+            {
+                File.Delete(SelectedExpense.FileName);
+                expenses.Clear();
+                List<Expense> expensesList = ExpenseManager.GetExpenses();
+                expensesList.ForEach(expense1 => expenses.Add(expense1));
+                Decimal spentAmount;
+                if (!String.IsNullOrEmpty(Budget.Text))
+                {
+                    spentAmount = expenses.Sum(n => n.Amount);
+                    TotalExpenses.Text = $"${spentAmount.ToString()}";
+
+                    Balance.Text = $"${(Convert.ToDecimal(Budget.Text) - spentAmount).ToString()}";
+                }
+            }
+
+        }
     }
 }
